@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+<context:component-scan base-package="com.*"></context:component-scan>
+<!--    <bean id="UserDao" class="com.niitcoder.jdk.UserDaoImpl"/>-->
+<!--    <bean id="aspect" class="com.niitcoder.aspect.MyAspect"></bean>-->
+<!--    <bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">-->
+<!--&lt;!&ndash;        代理实现的接口&ndash;&gt;-->
+<!--        <property name="proxyInterfaces" value="com.niitcoder.jdk.UserDao"/>-->
+<!--&lt;!&ndash;        指定目标对象&ndash;&gt;-->
+<!--        <property name="target" ref="UserDao"/>-->
+<!--&lt;!&ndash;        设置环绕通知&ndash;&gt;-->
+<!--        <property name="interceptorNames" value="aspect"/>-->
+<!--&lt;!&ndash;        默认 cglib false  jdk true&ndash;&gt;-->
+<!--        <property name="proxyTargetClass" value="true"/>-->
+<!--    </bean>-->
+    <bean id="aspect" class="com.niitcoder.aspect.MyAspect"></bean>
+    <aop:config>
+<!--配置切面-->
+        <aop:aspect>
+           <aop:pointcut id="myPointCut" expression="execution(* com.niitcoder.jdk.*.*(..))"/>
+            <aop:before method="mybefore" pointcut-ref="myPointCut"></aop:before>
+            <aop:after-returning method="myaround" pointcut-ref="myPointCut"></aop:after-returning>
+            <aop:after-throwing method="myafterthrowing" pointcut-ref="myPointCut"
+                                throwing="e"></aop:after-throwing>
+            <aop:after method="myafter" pointcut-ref="myPointCut"></aop:after>
+        </aop:aspect>
+
+    </aop:config>
+
+</beans>
